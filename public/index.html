@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Pip, a learning buddy</title>
+  <meta name="description" content="Pip is a friendly AI learning buddy for kids: ask questions, play quizzes, think through problems, and practise Portuguese.">
+  <meta name="theme-color" content="#e8f3ff">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg class="brand-dot" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="11" r="8" fill="#3b82f6"/><path d="M10 3 q3 -3 6 -1 q-3 2 -6 1z" fill="#22c55e"/></svg>
+      <span>Pip</span>
+    </div>
+    <div class="ages" role="radiogroup" aria-label="Age group">
+      <span class="ages-label">Age</span>
+      <button type="button" role="radio" data-age="5-7">5–7</button>
+      <button type="button" role="radio" data-age="8-10">8–10</button>
+      <button type="button" role="radio" data-age="11-13">11–13</button>
+    </div>
+    <div class="tools">
+      <button type="button" id="mute" class="icon-btn" aria-label="Mute Pip's voice" title="Voice on/off (M)"></button>
+      <button type="button" id="fullscreen" class="icon-btn" aria-label="Full screen" title="Full screen (F)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <nav class="modes" aria-label="What should we do?">
+    <button type="button" data-mode="ask"><span class="mode-icon" aria-hidden="true">?</span>Ask me anything</button>
+    <button type="button" data-mode="quiz"><span class="mode-icon" aria-hidden="true">★</span>Quiz me</button>
+    <button type="button" data-mode="think"><span class="mode-icon" aria-hidden="true">∞</span>Help me think</button>
+    <button type="button" data-mode="portuguese"><span class="mode-icon" aria-hidden="true">Pt</span>Português</button>
+  </nav>
+
+  <main class="stage">
+    <button type="button" id="pip" class="pip" data-mood="idle" aria-label="Pip. Tap to stop talking.">
+      <svg viewBox="0 0 300 300" aria-hidden="true">
+        <defs>
+          <radialGradient id="body" cx="38%" cy="30%" r="80%">
+            <stop offset="0" stop-color="#8cc8ff"/>
+            <stop offset="0.55" stop-color="#4a8df0"/>
+            <stop offset="1" stop-color="#2d5fc9"/>
+          </radialGradient>
+        </defs>
+        <ellipse class="shadow" cx="150" cy="284" rx="78" ry="10" fill="#1e3a8a" opacity="0.14"/>
+        <g class="body-group">
+          <g class="sprout">
+            <path d="M150 44 C150 30 152 22 156 14" stroke="#15803d" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M155 20 C166 4 188 6 192 14 C180 24 166 26 155 20 Z" fill="#22c55e"/>
+            <path d="M152 26 C140 14 122 16 118 24 C130 32 142 32 152 26 Z" fill="#4ade80"/>
+          </g>
+          <path class="body" d="M150 42 C222 42 264 94 264 162 C264 230 212 270 150 270 C88 270 36 230 36 162 C36 94 78 42 150 42 Z" fill="url(#body)"/>
+          <ellipse cx="104" cy="92" rx="34" ry="18" fill="#fff" opacity="0.28" transform="rotate(-24 104 92)"/>
+          <g class="eye left">
+            <circle cx="115" cy="142" r="31" fill="#fff" stroke="#1b2a5c" stroke-width="3"/>
+            <g class="pupil"><circle cx="115" cy="142" r="14" fill="#14193a"/><circle cx="120" cy="136" r="4.5" fill="#fff"/></g>
+          </g>
+          <g class="eye right">
+            <circle cx="185" cy="142" r="31" fill="#fff" stroke="#1b2a5c" stroke-width="3"/>
+            <g class="pupil"><circle cx="185" cy="142" r="14" fill="#14193a"/><circle cx="190" cy="136" r="4.5" fill="#fff"/></g>
+          </g>
+          <ellipse class="cheek" cx="92" cy="190" rx="15" ry="9" fill="#ff8fb3" opacity="0.55"/>
+          <ellipse class="cheek" cx="208" cy="190" rx="15" ry="9" fill="#ff8fb3" opacity="0.55"/>
+          <path id="mouth" d="M128 194 Q150 214 172 194" fill="none" stroke="#14193a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+      </svg>
+      <span class="rings" aria-hidden="true"><i></i><i></i></span>
+      <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+
+    <section class="bubble" aria-live="polite">
+      <p class="asked" id="asked" hidden></p>
+      <p class="said" id="said"></p>
+    </section>
+  </main>
+
+  <footer class="controls">
+    <div class="talk-row">
+      <button type="button" id="talk" class="talk" aria-label="Hold to talk">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="talk-hint">
+        <strong id="talk-label">Hold to talk</strong>
+        <span id="talk-sub">or hold the space bar</span>
+        <div class="speak-lang" id="speak-lang" hidden role="radiogroup" aria-label="Language you are speaking">
+          <button type="button" role="radio" data-lang="en-US">I'm speaking English</button>
+          <button type="button" role="radio" data-lang="pt-PT">Falo português</button>
+        </div>
+      </div>
+    </div>
+    <form class="type-row" id="type-form" autocomplete="off">
+      <input id="type-input" type="text" maxlength="600" placeholder="…or type a question" aria-label="Type a question">
+      <button type="submit" aria-label="Send">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </form>
+  </footer>
+
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+  <script src="app.js"></script>
+</body>
+</html>
